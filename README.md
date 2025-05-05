@@ -22,6 +22,8 @@ Permitir que o usuário acompanhe suas finanças com:
 * **Spring Security + JWT**
 * **PostgreSQL** (ou H2 para desenvolvimento)
 * **Swagger/OpenAPI** (documentação da API)
+        http://localhost:8080/swagger-ui.html
+        
 
 ### 📦 Funcionalidades
 
