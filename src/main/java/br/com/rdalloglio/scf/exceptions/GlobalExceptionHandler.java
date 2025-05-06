@@ -34,7 +34,6 @@ public class GlobalExceptionHandler {
         Map<String, String> error = new HashMap<>();
         if (ex.getCause() instanceof InvalidFormatException formatException) {
             String fieldName = formatException.getPath().get(0).getFieldName();
-            String targetType = formatException.getTargetType().getSimpleName();
             String value = formatException.getValue().toString();
             error.put(fieldName, "Valor inválido: '" + value + "'. Valores aceitos para " + fieldName + ": " +
                     Arrays.toString(CategoryType.values()));
