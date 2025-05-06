@@ -1,7 +1,11 @@
 package br.com.rdalloglio.scf.services;
 
-import java.util.List;
+import static br.com.rdalloglio.scf.constants.CategoryMessageKeys.NOT_FOUND;
 
+import java.util.List;
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import br.com.rdalloglio.scf.dtos.CategoryRequestDTO;
@@ -20,6 +24,7 @@ public class CategoryService {
 
     private final CategoryRepository repository;
     private final CategoryMapper mapper;
+    private final MessageSource messageSource;
 
     public CategoryResponseDTO create(CategoryRequestDTO dto) {
         Category category = mapper.toEntity(dto);
@@ -27,8 +32,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO findById(Long id) {
-        Category category = repository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException(id));
+        Category category = getCategoryById(id);
         return mapper.toDTO(category);
     }
     
@@ -38,8 +42,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO update(Long id, CategoryRequestDTO dto) {
-        Category category = repository.findById(id)
-            .orElseThrow(() -> new CategoryNotFoundException(id));
+        Category category = getCategoryById(id);
     
         category.setName(dto.getName());
         category.setType(dto.getType());
@@ -48,8 +51,7 @@ public class CategoryService {
     }
 
     public CategoryResponseDTO patch(Long id, CategoryUpdateRequestDTO dto) {
-        Category category = repository.findById(id)
-            .orElseThrow(() -> new CategoryNotFoundException(id));
+        Category category = getCategoryById(id);
     
         if (dto.name() != null) {
             category.setName(dto.name());
@@ -62,8 +64,19 @@ public class CategoryService {
     }    
 
     public void delete(Long id) {
-        Category category = repository.findById(id)
-            .orElseThrow(() -> new CategoryNotFoundException(id));
+        Category category = getCategoryById(id);
         repository.delete(category);
+    }
+
+
+    private String getMessage(String key, Object... args) {
+        return messageSource.getMessage(key, args, Locale.getDefault());
+    }
+
+    private Category getCategoryById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(
+                    getMessage(NOT_FOUND, id)
+                ));
     }
 }

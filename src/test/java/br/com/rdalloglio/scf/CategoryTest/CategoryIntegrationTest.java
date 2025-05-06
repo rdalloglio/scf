@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -89,8 +90,39 @@ class CategoryIntegrationTest {
 
     @Test
     @Order(6)
-    void shouldReturnNotFoundForDeletedCategory() throws Exception {
-        mockMvc.perform(get(BASE_URL + "/1"))
-            .andExpect(status().isNotFound());
+    void shouldReturnBadRequestWhenCreatingCategoryWithInvalidData() throws Exception {
+        var invalidDto = new CategoryRequestDTO("", null); // Nome vazio e tipo nulo
+
+        mockMvc.perform(post(BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidDto)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(7)
+    void shouldReturnNotFoundWhenGettingNonExistentCategory() throws Exception {
+        mockMvc.perform(get(BASE_URL + "/999")) // ID inexistente
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.error").value("Categoria com ID 999 não encontrada."));
+    }
+
+    @Test
+    @Order(8)
+    void shouldReturnBadRequestWhenUpdatingCategoryWithInvalidData() throws Exception {
+        var invalidDto = new CategoryRequestDTO("", null); // Nome vazio e tipo nulo
+
+        mockMvc.perform(put(BASE_URL + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidDto)))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(9)
+    void shouldReturnNotFoundWhenDeletingNonExistentCategory() throws Exception {
+        mockMvc.perform(delete(BASE_URL + "/999")) // ID inexistente
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.error").value("Categoria com ID 999 não encontrada."));
     }
 }

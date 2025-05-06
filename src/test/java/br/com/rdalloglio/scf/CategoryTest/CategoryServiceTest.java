@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.MessageSource;
 
 import br.com.rdalloglio.scf.dtos.CategoryRequestDTO;
 import br.com.rdalloglio.scf.dtos.CategoryResponseDTO;
@@ -34,6 +35,9 @@ class CategoryServiceTest {
 
     @Mock
     private CategoryMapper mapper;
+    
+    @Mock
+    private MessageSource messageSource;
     
     @InjectMocks
     private CategoryService service;
