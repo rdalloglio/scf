@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
 
         if (ex.getRequiredType() == CategoryType.class) {
             String fieldName = ex.getName();
-            String value = ex.getValue() != null ? ex.getValue().toString() : "null";
+            String value = java.util.Objects.toString(ex.getValue(), "null");
             String acceptedValues = Arrays.toString(CategoryType.values());
 
             String message = messageSource.getMessage(
