@@ -15,6 +15,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
@@ -33,9 +34,8 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-            errors.put(error.getField(), error.getDefaultMessage())
-        );
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return errors;
     }
 
@@ -49,20 +49,45 @@ public class GlobalExceptionHandler {
             String acceptedValues = Arrays.toString(CategoryType.values());
 
             String message = messageSource.getMessage(
-                TYPE_INVALID,
-                new Object[]{value, fieldName, acceptedValues},
-                Locale.getDefault()
-            );
+                    TYPE_INVALID,
+                    new Object[] { value, fieldName, acceptedValues },
+                    Locale.getDefault());
 
             error.put(fieldName, message);
         } else {
             String message = messageSource.getMessage(
-                INVALID_REQUEST,
-                null,
-                Locale.getDefault()
-            );
+                    INVALID_REQUEST,
+                    null,
+                    Locale.getDefault());
             error.put("error", message);
         }
+        return error;
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        Map<String, String> error = new HashMap<>();
+
+        if (ex.getRequiredType() == CategoryType.class) {
+            String fieldName = ex.getName();
+            String value = ex.getValue() != null ? ex.getValue().toString() : "null";
+            String acceptedValues = Arrays.toString(CategoryType.values());
+
+            String message = messageSource.getMessage(
+                    TYPE_INVALID,
+                    new Object[] { value, fieldName, acceptedValues },
+                    Locale.getDefault());
+
+            error.put(fieldName, message);
+        } else {
+            String message = messageSource.getMessage(
+                    INVALID_REQUEST,
+                    null,
+                    Locale.getDefault());
+            error.put("error", message);
+        }
+
         return error;
     }
 
