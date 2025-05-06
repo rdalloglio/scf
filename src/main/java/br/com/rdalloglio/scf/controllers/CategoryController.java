@@ -35,6 +35,12 @@ public class CategoryController {
         return service.create(dto);
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryResponseDTO getById(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
     @GetMapping
     public List<CategoryResponseDTO> getAll(@RequestParam(required = false) CategoryType type) {
         return service.findAll(type);

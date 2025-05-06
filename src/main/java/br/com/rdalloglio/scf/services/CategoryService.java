@@ -8,6 +8,7 @@ import br.com.rdalloglio.scf.dtos.CategoryRequestDTO;
 import br.com.rdalloglio.scf.dtos.CategoryResponseDTO;
 import br.com.rdalloglio.scf.entities.Category;
 import br.com.rdalloglio.scf.enums.CategoryType;
+import br.com.rdalloglio.scf.exceptions.CategoryNotFoundException;
 import br.com.rdalloglio.scf.mappers.CategoryMapper;
 import br.com.rdalloglio.scf.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,12 @@ public class CategoryService {
         return mapper.toDTO(repository.save(category));
     }
 
+    public CategoryResponseDTO findById(Long id) {
+        Category category = repository.findById(id)
+                .orElseThrow(() -> new CategoryNotFoundException(id));
+        return mapper.toDTO(category);
+    }
+    
     public List<CategoryResponseDTO> findAll(CategoryType type) {
         List<Category> list = (type != null) ? repository.findAllByType(type) : repository.findAll();
         return list.stream().map(mapper::toDTO).toList();
