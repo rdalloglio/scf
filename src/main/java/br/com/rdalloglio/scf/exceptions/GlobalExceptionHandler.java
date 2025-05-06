@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
             error.put(fieldName, "Valor inválido: '" + value + "'. Valores aceitos para " + fieldName + ": " +
                     Arrays.toString(CategoryType.values()));
         } else {
-            error.put("erro", "Requisição inválida");
+            error.put("error", "Requisição inválida");
         }
         return error;
     }
@@ -47,6 +47,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CategoryNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleCategoryNotFound(CategoryNotFoundException ex) {
-        return Map.of("erro", ex.getMessage());
+        return Map.of("error", ex.getMessage());
     }
 }
