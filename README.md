@@ -37,3 +37,27 @@ Permitir que o usuário acompanhe suas finanças com:
 
 > 🏗️ Em desenvolvimento — funcionalidades básicas sendo implementadas.
 
+
+
+
+
+### SonarQube
+
+* Subindo no Podman (docker)
+
+podman run -d --name sonarqube \
+  -p 9000:9000 \
+  -v sonarqube_data:/opt/sonarqube/data \
+  -v sonarqube_extensions:/opt/sonarqube/extensions \
+  -v sonarqube_logs:/opt/sonarqube/logs \
+  docker.io/sonarqube:community
+
+* Logar no Sonar e gerar o token
+
+* Rodando SonarQube
+
+mvn clean verify sonar:sonar \
+  -Dsonar.projectKey=scf \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=seu-token-aqui
+
