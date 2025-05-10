@@ -80,19 +80,19 @@ Guarde esse token\
 
 Via terminal, na raíz do projeto, rode o comando abaixo:
 
-`mvn clean verify sonar:sonar \  
+mvn clean verify sonar:sonar \  
   -Dspring.profiles.active=dev \  
   -Dsonar.projectKey=scf \  
   -Dsonar.host.url=http://localhost:9000 \  
-  -Dsonar.login=seu-token-aqui`
+  -Dsonar.login=seu-token-aqui
 
 Após execução, acesse http://localhost:9000  
 Veja o projeto scf listado com métricas como:\
-    Cobertura de testes\
-    Bugs\
-    Vulnerabilidades\
-    Code smells\
-    Complexidade\
+* Cobertura de testes\
+* Bugs\
+* Vulnerabilidades\
+* Code smells\
+* Complexidade\
 
 
 ### PostgreSQL (profile:prod - produção)
