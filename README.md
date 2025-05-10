@@ -80,11 +80,11 @@ Guarde esse token\
 
 Via terminal, na raíz do projeto, rode o comando abaixo:
 
-* **mvn clean verify sonar:sonar \ **  
-  **-Dspring.profiles.active=dev \ **  
-  **-Dsonar.projectKey=scf \ **  
-  **-Dsonar.host.url=http://localhost:9000 \ **  
-  **-Dsonar.login=seu-token-aqui**
+*  mvn clean verify sonar:sonar \  
+  -Dspring.profiles.active=dev \  
+  -Dsonar.projectKey=scf \  
+  -Dsonar.host.url=http://localhost:9000 \  
+  -Dsonar.login=seu-token-aqui
 
 Após execução, acesse http://localhost:9000  
 Veja o projeto scf listado com métricas como:\
