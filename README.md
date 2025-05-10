@@ -71,20 +71,19 @@ Garanta que todas iniciaram antes de seguir.
 Acessível pela URL http://localhost:9000  
 Ao efetuar o login padrão (admin/admin), será solicitado a alteração da senha.
 
-* Gerar Token:
+**Gerar Token:**\
 Clique no seu avatar (canto superior direito) > My Account > Security\
 Gere um novo Token, ex: scf-token\
 Guarde esse token\
 
-* Rodando SonarQube
-
+**Rodando SonarQube:**\
 Via terminal, na raíz do projeto, rode o comando abaixo:
 
-*  mvn clean verify sonar:sonar \  
-  -Dspring.profiles.active=dev \  
-  -Dsonar.projectKey=scf \  
-  -Dsonar.host.url=http://localhost:9000 \  
-  -Dsonar.login=seu-token-aqui
+mvn clean verify sonar:sonar \  
+-Dspring.profiles.active=dev \  
+-Dsonar.projectKey=scf \  
+-Dsonar.host.url=http://localhost:9000 \  
+-Dsonar.login=seu-token-aqui
 
 Após execução, acesse http://localhost:9000  
 Veja o projeto scf listado com métricas como:\
