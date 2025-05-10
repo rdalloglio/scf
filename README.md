@@ -80,11 +80,11 @@ Guarde esse token\
 
 Via terminal, na raíz do projeto, rode o comando abaixo:
 
-mvn clean verify sonar:sonar \  
-  -Dspring.profiles.active=dev \  
-  -Dsonar.projectKey=scf \  
-  -Dsonar.host.url=http://localhost:9000 \  
-  -Dsonar.login=seu-token-aqui
+* **mvn clean verify sonar:sonar \ **  
+  **-Dspring.profiles.active=dev \ **  
+  **-Dsonar.projectKey=scf \ **  
+  **-Dsonar.host.url=http://localhost:9000 \ **  
+  **-Dsonar.login=seu-token-aqui**
 
 Após execução, acesse http://localhost:9000  
 Veja o projeto scf listado com métricas como:\
@@ -121,11 +121,11 @@ Caso queira rodar o aplicativo no Docker ou Podman, pode ser criada a imagem via
 No arquivo **application.properties** altere a propriedade **spring.profiles.active** para **prod**.\
 Via terminal, na raíz do projeto, execute o comando que irá executar o script Dockerfile, realizando a criação da imagem da aplicação:
 
-**podman build -t scf-app .**
+* **podman build -t scf-app .**
 
 Agora, vamos subir a aplicação para o rodar na porta 8080 e na rede scf-network:
 
-**podman run -p 8080:8080 --network scf-network scf-app**
+* **podman run -p 8080:8080 --network scf-network scf-app**
 
 Pronto, a aplicação estará sendo executada e os logs exibidos no terminal.\
 Acesse o swagger (http://localhost:8080/swagger-ui/index.html)  para visualizar as APIs ou o Actuator (http://localhost:8080/actuator/health/) para verificar a saúde da aplicação.\
