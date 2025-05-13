@@ -9,6 +9,8 @@ import br.com.rdalloglio.scf.dtos.AuthResponse;
 import br.com.rdalloglio.scf.dtos.LoginRequest;
 import br.com.rdalloglio.scf.dtos.RegisterRequest;
 import br.com.rdalloglio.scf.entities.User;
+import br.com.rdalloglio.scf.exceptions.InvalidCredentialsException;
+import br.com.rdalloglio.scf.exceptions.UserAlreadyExistsException;
 import br.com.rdalloglio.scf.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class AuthenticationService {
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByUsername(request.username())) {
-            throw new IllegalArgumentException("Usuário já cadastrado");
+            throw new UserAlreadyExistsException(request.username());
         }
 
         var user = new User();
@@ -45,10 +47,14 @@ public class AuthenticationService {
                 request.password()
         );
 
-        authenticationManager.authenticate(authToken);
+        try {
+            authenticationManager.authenticate(authToken);
+        } catch (Exception e) {
+            throw new InvalidCredentialsException();
+        }
 
         var user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado"));
+            .orElseThrow(InvalidCredentialsException::new);
 
         String token = jwtService.generateToken(user);
         return new AuthResponse(token);
