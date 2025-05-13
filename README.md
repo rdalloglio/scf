@@ -120,6 +120,11 @@ Alguns comandos para executar após acessar o banco:
 
 Caso queira rodar o aplicativo no Docker ou Podman, pode ser criada a imagem via Dockerfile.\
 No arquivo **application.properties** altere a propriedade **spring.profiles.active** para **prod**.\
+No arquivo **application-prod.properties** verifique a linha 2 e 3, ambas com mesma propriedade, mas valores diferentes, entenda:\
+A linha **spring.datasource.url=jdbc:postgresql://localhost:5432/finance-db** deve ser utilizada para rodar via terminal ou via IDE. 
+A linha **spring.datasource.url=jdbc:postgresql://postgres:5432/finance-db** deve ser utilizada quando rodarmos via docker.
+Dito isso, verifique se está comentada a linha usada quando estamos em ambiente de desenvolvimento e descomentada a linha para o docker.
+
 Via terminal, na raíz do projeto, execute o comando que irá executar o script Dockerfile, realizando a criação da imagem da aplicação:
 
 **podman build -t scf-app .**

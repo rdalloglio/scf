@@ -3,6 +3,7 @@ package br.com.rdalloglio.scf.exceptions;
 import static br.com.rdalloglio.scf.constants.CategoryMessageKeys.INVALID_REQUEST;
 import static br.com.rdalloglio.scf.constants.CategoryMessageKeys.TYPE_INVALID;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
@@ -10,11 +11,13 @@ import java.util.Map;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -96,4 +99,41 @@ public class GlobalExceptionHandler {
     public Map<String, String> handleCategoryNotFound(CategoryNotFoundException ex) {
         return Map.of("error", ex.getMessage());
     }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<Object> handleUserAlreadyExists(UserAlreadyExistsException ex, WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT) // 409
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 409,
+                        "error", "Conflict",
+                        "message", ex.getMessage(),
+                        "path", request.getDescription(false).replace("uri=", "")));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+        return ResponseEntity
+                .badRequest()
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 400,
+                        "error", "Bad Request",
+                        "message", ex.getMessage(),
+                        "path", request.getDescription(false).replace("uri=", "")));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Object> handleInvalidCredentials(InvalidCredentialsException ex, WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED) // 401
+                .body(Map.of(
+                        "timestamp", LocalDateTime.now(),
+                        "status", 401,
+                        "error", "Unauthorized",
+                        "message", ex.getMessage(),
+                        "path", request.getDescription(false).replace("uri=", "")));
+    }
+
 }
