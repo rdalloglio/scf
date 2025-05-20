@@ -58,7 +58,7 @@ Agora, para o docker compose, execute o comando abaixo:
 
 **docker-compose up -d**  
 ou  
-**podman-compose up -d**
+**podman compose up -d**
 
 Ao rodar o comando **docker ps -a** verá na lista as seguintes ferramentas:
 * **SonarQube**
