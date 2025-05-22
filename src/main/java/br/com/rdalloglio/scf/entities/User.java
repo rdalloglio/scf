@@ -45,12 +45,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    // Implementações do UserDetails
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Usamos SimpleGrantedAuthority para converter o enum Role para um
-        // GrantedAuthority
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 

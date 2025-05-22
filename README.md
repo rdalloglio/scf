@@ -58,7 +58,7 @@ Agora, para o docker compose, execute o comando abaixo:
 
 **docker-compose up -d**  
 ou  
-**podman-compose up -d**
+**podman compose up -d**
 
 Ao rodar o comando **docker ps -a** verá na lista as seguintes ferramentas:
 * **SonarQube**
@@ -115,6 +115,19 @@ Alguns comandos para executar após acessar o banco:
 * **\dt** - Ver tabelas existentes
 * **SELECT * FROM nome_da_tabela;** - Faz um select na tabela especificada
 * **\q** - Sair do postgreSQL
+
+### Rodando a aplicação
+
+No terminal, dentro da raíz do projeto, execute o comando abaixo:
+
+# Compila e executa com profile dev
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+# Compila e executa com profile dev
+Para a execução com perfil PROD é necessário rodar o docker-compose para subida do PostgreSQL.
+
+Após a subida do PostgreSQL, execute o comando abaixo:
+mvn spring-boot:run -Dspring-boot.run.profiles=prod
 
 ### Dockerfile
 

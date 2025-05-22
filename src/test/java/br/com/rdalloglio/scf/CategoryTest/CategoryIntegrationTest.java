@@ -91,7 +91,7 @@ class CategoryIntegrationTest {
     @Test
     @Order(6)
     void shouldReturnBadRequestWhenCreatingCategoryWithInvalidData() throws Exception {
-        var invalidDto = new CategoryRequestDTO("", null); // Nome vazio e tipo nulo
+        var invalidDto = new CategoryRequestDTO("", null); 
 
         mockMvc.perform(post(BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -102,7 +102,7 @@ class CategoryIntegrationTest {
     @Test
     @Order(7)
     void shouldReturnNotFoundWhenGettingNonExistentCategory() throws Exception {
-        mockMvc.perform(get(BASE_URL + "/999")) // ID inexistente
+        mockMvc.perform(get(BASE_URL + "/999"))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.error").value("Categoria com ID 999 não encontrada."));
     }
@@ -110,7 +110,7 @@ class CategoryIntegrationTest {
     @Test
     @Order(8)
     void shouldReturnBadRequestWhenUpdatingCategoryWithInvalidData() throws Exception {
-        var invalidDto = new CategoryRequestDTO("", null); // Nome vazio e tipo nulo
+        var invalidDto = new CategoryRequestDTO("", null);
 
         mockMvc.perform(put(BASE_URL + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +121,7 @@ class CategoryIntegrationTest {
     @Test
     @Order(9)
     void shouldReturnNotFoundWhenDeletingNonExistentCategory() throws Exception {
-        mockMvc.perform(delete(BASE_URL + "/999")) // ID inexistente
+        mockMvc.perform(delete(BASE_URL + "/999"))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.error").value("Categoria com ID 999 não encontrada."));
     }
