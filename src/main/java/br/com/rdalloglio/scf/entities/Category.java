@@ -31,5 +31,5 @@ public class Category {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CategoryType type; // RECEITA ou DESPESA
+    private CategoryType type;
 }
