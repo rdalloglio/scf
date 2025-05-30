@@ -25,10 +25,10 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping
-public ResponseEntity<AccountResponse> create(@RequestBody @Valid AccountRequest request, Principal principal) {
-    var response = accountService.create(request, principal.getName());
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
-}
+    public ResponseEntity<AccountResponse> create(@RequestBody @Valid AccountRequest request, Principal principal) {
+        var response = accountService.create(request, principal.getName());
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 
     @GetMapping
     public ResponseEntity<List<AccountResponse>> list(Principal principal) {
