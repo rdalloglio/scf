@@ -120,13 +120,13 @@ Alguns comandos para executar após acessar o banco:
 
 No terminal, dentro da raíz do projeto, execute o comando abaixo:
 
-# Compila e executa com profile dev
+### Compila e executa com profile dev 
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 
-# Compila e executa com profile dev
+### Compila e executa com profile dev 
 Para a execução com perfil PROD é necessário rodar o docker-compose para subida do PostgreSQL.
 
-Após a subida do PostgreSQL, execute o comando abaixo:
+Após a subida do PostgreSQL, execute o comando abaixo: 
 mvn spring-boot:run -Dspring-boot.run.profiles=prod
 
 ### Dockerfile
